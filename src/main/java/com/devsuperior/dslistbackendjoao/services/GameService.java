@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dslistbackendjoao.dto.GameDTO;
 import com.devsuperior.dslistbackendjoao.dto.GameMinDTO;
+import com.devsuperior.dslistbackendjoao.projections.GameMinProjection;
 import com.devsuperior.dslistbackendjoao.repositories.GameRepository;
 
 @Service
@@ -34,6 +35,18 @@ public class GameService {
 		List<GameMinDTO> dto = result.stream().map(x -> new GameMinDTO(x)).toList();
 		
 		return dto;
+	}
+	
+	
+	@Transactional(readOnly = true)
+	public List<GameMinDTO> findByList(Long listId){
+		
+		//Converter um objeto Game em GameMinDTO com stream
+		List<GameMinProjection> result = gameRepository.searchByList(listId);
+				
+		return result.stream().map(x -> new GameMinDTO(x)).toList();
+		
+	
 	}
 	
 	
